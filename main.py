@@ -15,8 +15,8 @@ RED = 2
 
 
 def main():
-    font = ImageFont.truetype('fonts/gnu-freefont-freemono/FreeMonoBold.ttf', 32)
-    font_large = ImageFont.truetype('fonts/gnu-freefont-freemono/FreeMonoBold.ttf', 48)
+    font = ImageFont.truetype('fonts/freefont/FreeMonoBold.ttf', 32)
+    font_large = ImageFont.truetype('fonts/freefont/FreeMonoBold.ttf', 48)
 
     im = Image.new('P', DISP_SIZE)
     im.putpalette(DISP_PALETTE)
@@ -32,7 +32,8 @@ def main():
     import epd2in7b
     epd = epd2in7b.EPD()
     epd.init()
-    epd.display_image(im.transpose(Image.ROTATE_90))
+    epd.display_image(im.transpose(Image.ROTATE_90), BLACK, RED)
+    epd.sleep()
 
 
 if __name__ == '__main__':

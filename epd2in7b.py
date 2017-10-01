@@ -271,7 +271,7 @@ class EPD:
         self.send_command(DISPLAY_REFRESH) 
         self.wait_until_idle()
 
-    def display_image(self, image):
+    def display_image(self, image, black, red):
         assert(image.size == (self.width, self.height))
 
         pixels = image.load()
@@ -281,9 +281,9 @@ class EPD:
         frame_red = [0] * int(self.width * self.height / 8)
         for y in range(0, self.height):
             for x in range(0, self.width):
-                if pixels[x, y] == 1:
+                if pixels[x, y] == black:
                     frame_black[int((x + y * self.width) / 8)] |= 0x80 >> (x % 8)
-                elif pixels[x, y] == 2:
+                elif pixels[x, y] == red:
                     frame_red[int((x + y * self.width) / 8)] |= 0x80 >> (x % 8)
 
         self.display_frame(frame_black, frame_red)
