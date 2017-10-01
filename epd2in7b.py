@@ -70,12 +70,6 @@ PROGRAM_MODE                                = 0xA0
 ACTIVE_PROGRAM                              = 0xA1
 READ_OTP_DATA                               = 0xA2
 
-# Display orientation
-ROTATE_0                                    = 0
-ROTATE_90                                   = 1
-ROTATE_180                                  = 2
-ROTATE_270                                  = 3
-
 class EPD:
     def __init__(self):
         self.reset_pin = epdif.RST_PIN
@@ -83,7 +77,6 @@ class EPD:
         self.busy_pin = epdif.BUSY_PIN
         self.width = EPD_WIDTH
         self.height = EPD_HEIGHT
-        self.rotate = ROTATE_0
 
     lut_vcom_dc = [
         0x00    ,0x00,
@@ -278,6 +271,23 @@ class EPD:
         self.send_command(DISPLAY_REFRESH) 
         self.wait_until_idle()
 
+    def display_image(self, image):
+        assert(image.size == (self.width, self.height))
+
+        pixels = image.load()
+
+        # Convert image to binary format to send
+        frame_black = [0] * int(self.width * self.height / 8)
+        frame_red = [0] * int(self.width * self.height / 8)
+        for y in range(0, self.height):
+            for x in range(0, self.width):
+                if pixels[x, y] == 1:
+                    frame_black[int((x + y * self.width) / 8)] |= 0x80 >> (x % 8)
+                elif pixels[x, y] == 2:
+                    frame_red[int((x + y * self.width) / 8)] |= 0x80 >> (x % 8)
+
+        self.display_frame(frame_black, frame_red)
+
     # After this command is transmitted, the chip would enter the deep-sleep
     # mode to save power. The deep sleep mode would return to standby by
     # hardware reset. The only one parameter is a check code, the command would
@@ -286,23 +296,5 @@ class EPD:
     def sleep(self):
         self.send_command(DEEP_SLEEP)
         self.send_data(0xa5)
-
-    def set_rotate(self, rotate):
-        if (rotate == ROTATE_0):
-            self.rotate = ROTATE_0
-            self.width = EPD_WIDTH
-            self.height = EPD_HEIGHT
-        elif (rotate == ROTATE_90): 
-            self.rotate = ROTATE_90
-            self.width = EPD_HEIGHT
-            self.height = EPD_WIDTH
-        elif (rotate == ROTATE_180): 
-            self.rotate = ROTATE_180
-            self.width = EPD_WIDTH
-            self.height = EPD_HEIGHT
-        elif (rotate == ROTATE_270): 
-            self.rotate = ROTATE_270
-            self.width = EPD_HEIGHT
-            self.height = EPD_WIDTH
 
 ### END OF FILE ###
