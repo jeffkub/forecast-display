@@ -14,6 +14,10 @@ WHITE = 0
 BLACK = 1
 RED = 2
 
+def center_text(draw, xy, box, text, fill, font):
+    text_size = draw.textsize(text, font)
+    pos = tuple(map(lambda pos, box, text_size: pos + (box - text_size)/2, xy, box, text_size))
+    draw.text(pos, text, fill, font)
 
 def main():
     # Parse command line arguments
@@ -31,8 +35,8 @@ def main():
     now = datetime.now()
 
     draw = ImageDraw.ImageDraw(im)
-    draw.text((0, 40), now.strftime('%A'), BLACK, font_large)
-    draw.text((0, 88), now.strftime('%B %d'), RED, font)
+    center_text(draw, (0, 40), (264, 48), now.strftime('%A'), BLACK, font_large)
+    center_text(draw, (0, 88), (264, 32), now.strftime('%B %d'), RED, font)
 
     if args.debug_show:
         # Show image in a window for debugging
