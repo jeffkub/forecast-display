@@ -1,5 +1,6 @@
 import argparse
 from datetime import datetime
+import os
 from PIL import Image, ImageDraw, ImageFont
 
 DISP_SIZE = (264, 176)
@@ -20,6 +21,8 @@ def center_text(draw, xy, box, text, fill, font):
     draw.text(pos, text, fill, font)
 
 def main():
+    os.chdir(os.path.dirname(os.path.abspath(__file__)))
+
     # Parse command line arguments
     parser = argparse.ArgumentParser()
     parser.add_argument('--debug_show', action='store_true')
