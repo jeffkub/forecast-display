@@ -3,6 +3,7 @@ from datetime import datetime
 import json
 import os
 from PIL import Image, ImageDraw, ImageFont
+from weather import Weather
 
 DISP_SIZE = (264, 176)
 
@@ -45,6 +46,9 @@ def main():
 
     font = ImageFont.truetype(BASE_PATH + '/fonts/freefont/FreeMonoBold.ttf', 32)
     font_large = ImageFont.truetype(BASE_PATH + '/fonts/freefont/FreeMonoBold.ttf', 48)
+
+    weather = Weather(api_key=config['api_key'], city=config['city'], state=config['state'])
+    print(weather.get_conditions())
 
     im = Image.new('P', DISP_SIZE)
     im.putpalette(DISP_PALETTE)
