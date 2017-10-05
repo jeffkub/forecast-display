@@ -154,46 +154,36 @@ class EPD:
         self.digital_write(self.reset_pin, GPIO.HIGH)
         self.delay_ms(200)
 
-    def display_frame(self, frame_buffer_black, frame_buffer_red):
-        self.send_command(DATA_START_TRANSMISSION_1)
-        for i in range(0, 30720):
-            temp1 = frame_buffer_black[i]
-            j = 0
-            while (j < 8):
-                if(temp1 & 0x80):
-                    temp2 = 0x03
-                else:
-                    temp2 = 0x00
-                temp2 = (temp2 << 4) & 0xFF
-                temp1 = (temp1 << 1) & 0xFF
-                j += 1
-                if(temp1 & 0x80):
-                    temp2 |= 0x03
-                else:
-                    temp2 |= 0x00
-                temp1 = (temp1 << 1) & 0xFF
-                self.send_data(temp2)
-                j += 1
-        self.send_command(DISPLAY_REFRESH)
-        self.delay_ms(100)
-        self.wait_until_idle()
-
     def display_image(self, image, black, red):
-        assert(image.size == (self.width, self.height))
+        assert (image.size == (self.width, self.height))
 
         pixels = image.load()
 
-        # Convert image to binary format to send
-        frame_black = [0xFF] * int(self.width * self.height / 8)
-        frame_red = [0xFF] * int(self.width * self.height / 8)
-        for y in range(0, self.height):
-            for x in range(0, self.width):
-                if pixels[x, y] == black:
-                    frame_black[int((x + y * self.width) / 8)] &= ~(0x80 >> (x % 8))
-                elif pixels[x, y] == red:
-                    frame_black[int((x + y * self.width) / 8)] &= ~(0x80 >> (x % 8))
+        self.send_command(DATA_START_TRANSMISSION_1)
 
-        self.display_frame(frame_black, frame_red)
+        for y in range(0, self.height):
+            for x in range(0, self.width, 2):
+                data = 0
+
+                if pixels[x, y] == black:
+                    data |= 0x00
+                elif pixels[x, y] == red:
+                    data |= 0x40
+                else:
+                    data |= 0x30
+
+                if pixels[x + 1, y] == black:
+                    data |= 0x00
+                elif pixels[x + 1, y] == red:
+                    data |= 0x04
+                else:
+                    data |= 0x03
+
+                self.send_data(data)
+
+        self.send_command(DISPLAY_REFRESH)
+        self.delay_ms(100)
+        self.wait_until_idle()
 
     def sleep(self):
         self.send_command(POWER_OFF)
@@ -202,4 +192,3 @@ class EPD:
         self.send_data(0xa5)
 
 ### END OF FILE ###
-
