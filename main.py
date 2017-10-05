@@ -44,8 +44,8 @@ def center_text(draw, xy, box, text, fill, font):
 def main():
     config = get_config()
 
-    font = ImageFont.truetype(BASE_PATH + '/fonts/freefont/FreeMonoBold.ttf', 32)
-    font_large = ImageFont.truetype(BASE_PATH + '/fonts/freefont/FreeMonoBold.ttf', 48)
+    font = ImageFont.truetype(BASE_PATH + '/fonts/freefont/FreeMonoBold.ttf', 72)
+    font_large = ImageFont.truetype(BASE_PATH + '/fonts/freefont/FreeMonoBold.ttf', 110)
 
     weather = Weather(api_key=config['api_key'], city=config['city'], state=config['state'])
     print(weather.get_conditions())
@@ -56,8 +56,8 @@ def main():
     now = datetime.now()
 
     draw = ImageDraw.ImageDraw(im)
-    center_text(draw, (0, 40), (264, 48), now.strftime('%A'), BLACK, font_large)
-    center_text(draw, (0, 88), (264, 32), now.strftime('%B %d'), RED, font)
+    center_text(draw, (0, 80), (640, 110), now.strftime('%A'), BLACK, font_large)
+    center_text(draw, (0, 200), (640, 72), now.strftime('%B %d'), RED, font)
 
     if config['debug_show']:
         # Show image in a window for debugging
