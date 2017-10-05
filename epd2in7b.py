@@ -251,21 +251,22 @@ class EPD:
     def display_frame(self, frame_buffer_black, frame_buffer_red):
         self.send_command(TCON_RESOLUTION)
         self.send_data(EPD_WIDTH >> 8)
-        self.send_data(EPD_WIDTH & 0xff)        #176      
+        self.send_data(EPD_WIDTH & 0xff)        #176
         self.send_data(EPD_HEIGHT >> 8)        
         self.send_data(EPD_HEIGHT & 0xff)       #264
 
-        if (frame_buffer_black != None):
+        if frame_buffer_black:
             self.send_command(DATA_START_TRANSMISSION_1)           
             self.delay_ms(2)
-            for i in range(0, int(self.width * self.height / 8)):
-                self.send_data(frame_buffer_black[i])  
-            self.delay_ms(2)                  
-        if (frame_buffer_red != None):
+            for byte in frame_buffer_black:
+                self.send_data(byte)
+            self.delay_ms(2)
+
+        if frame_buffer_red:
             self.send_command(DATA_START_TRANSMISSION_2)
             self.delay_ms(2)
-            for i in range(0, int(self.width * self.height / 8)):
-                self.send_data(frame_buffer_red[i])  
+            for byte in frame_buffer_red:
+                self.send_data(byte)
             self.delay_ms(2)        
 
         self.send_command(DISPLAY_REFRESH) 

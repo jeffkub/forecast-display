@@ -5,7 +5,7 @@ import os
 from PIL import Image, ImageDraw, ImageFont
 from weather import Weather
 
-DISP_SIZE = (264, 176)
+DISP_SIZE = (640, 384)
 
 DISP_PALETTE = [
     255, 255, 255,
@@ -64,10 +64,10 @@ def main():
         im.show()
     else:
         # Show on e-paper display
-        import epd2in7b
-        epd = epd2in7b.EPD()
+        from epd7in5 import EPD
+        epd = EPD()
         epd.init()
-        epd.display_image(im.transpose(Image.ROTATE_90), BLACK, RED)
+        epd.display_image(im, BLACK, RED)
         epd.sleep()
 
 

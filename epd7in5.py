@@ -25,7 +25,6 @@
  #
 
 import epdif
-import Image
 import RPi.GPIO as GPIO
 
 # Display resolution
@@ -153,30 +152,12 @@ class EPD:
         self.digital_write(self.reset_pin, GPIO.LOW)         # module reset
         self.delay_ms(200)
         self.digital_write(self.reset_pin, GPIO.HIGH)
-        self.delay_ms(200)    
+        self.delay_ms(200)
 
-    def get_frame_buffer(self, image):
-        buf = [0x00] * (self.width * self.height / 8)
-        # Set buffer to value of Python Imaging Library image.
-        # Image must be in mode 1.
-        image_monocolor = image.convert('1')
-        imwidth, imheight = image_monocolor.size
-        if imwidth != self.width or imheight != self.height:
-            raise ValueError('Image must be same dimensions as display \
-                ({0}x{1}).' .format(self.width, self.height))
-
-        pixels = image_monocolor.load()
-        for y in range(self.height):
-            for x in range(self.width):
-                # Set the bits for the column of pixels at the current position.
-                if pixels[x, y] != 0:
-                    buf[(x + y * self.width) / 8] |= 0x80 >> (x % 8)
-        return buf
-
-    def display_frame(self, frame_buffer):
+    def display_frame(self, frame_buffer_black, frame_buffer_red):
         self.send_command(DATA_START_TRANSMISSION_1)
         for i in range(0, 30720):
-            temp1 = frame_buffer[i]
+            temp1 = frame_buffer_black[i]
             j = 0
             while (j < 8):
                 if(temp1 & 0x80):
@@ -196,6 +177,23 @@ class EPD:
         self.send_command(DISPLAY_REFRESH)
         self.delay_ms(100)
         self.wait_until_idle()
+
+    def display_image(self, image, black, red):
+        assert(image.size == (self.width, self.height))
+
+        pixels = image.load()
+
+        # Convert image to binary format to send
+        frame_black = [0xFF] * int(self.width * self.height / 8)
+        frame_red = [0xFF] * int(self.width * self.height / 8)
+        for y in range(0, self.height):
+            for x in range(0, self.width):
+                if pixels[x, y] == black:
+                    frame_black[int((x + y * self.width) / 8)] &= ~(0x80 >> (x % 8))
+                elif pixels[x, y] == red:
+                    frame_black[int((x + y * self.width) / 8)] &= ~(0x80 >> (x % 8))
+
+        self.display_frame(frame_black, frame_red)
 
     def sleep(self):
         self.send_command(POWER_OFF)
