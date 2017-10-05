@@ -34,10 +34,6 @@ DC_PIN          = 25
 CS_PIN          = 8
 BUSY_PIN        = 24
 
-# Display resolution
-EPD_WIDTH       = 176
-EPD_HEIGHT      = 264
-
 # SPI device, bus = 0, device = 0
 SPI = spidev.SpiDev(0, 0)
 
@@ -63,6 +59,6 @@ def epd_init():
 
     SPI.max_speed_hz = 2000000
     SPI.mode = 0b00
-    return 0;
+    return 0
 
 ### END OF FILE ###
