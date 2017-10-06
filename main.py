@@ -46,6 +46,10 @@ def main():
 
     font = ImageFont.truetype(BASE_PATH + '/fonts/freefont/FreeMonoBold.ttf', 72)
     font_large = ImageFont.truetype(BASE_PATH + '/fonts/freefont/FreeMonoBold.ttf', 110)
+    weather_icons = ImageFont.truetype(BASE_PATH + '/fonts/weather-icons/weathericons-regular-webfont.ttf', 48)
+
+    with open(BASE_PATH + '/icon-mapping.json') as file:
+        icon_map = json.load(file)
 
     weather = Weather(api_key=config['api_key'], city=config['city'], state=config['state'])
     print(weather.get_conditions())
@@ -58,6 +62,7 @@ def main():
     draw = ImageDraw.ImageDraw(im)
     center_text(draw, (0, 80), (640, 110), now.strftime('%A'), BLACK, font_large)
     center_text(draw, (0, 200), (640, 72), now.strftime('%B %d'), RED, font)
+    draw.text((10, 10), icon_map['chanceflurries'], BLACK, weather_icons)
 
     if config['debug_show']:
         # Show image in a window for debugging
