@@ -55,6 +55,9 @@ def main():
     conditions = weather.get_conditions()
     print(conditions)
 
+    forecast = weather.get_forecast()
+    print(forecast)
+
     im = Image.new('P', DISP_SIZE)
     im.putpalette(DISP_PALETTE)
 
@@ -63,7 +66,7 @@ def main():
     draw = ImageDraw.ImageDraw(im)
     center_text(draw, (0, 80), (640, 110), now.strftime('%A'), BLACK, font_large)
     center_text(draw, (0, 200), (640, 72), now.strftime('%B %d'), RED, font)
-    draw.text((10, 10), icon_map[conditions['current_observation']['icon']], BLACK, weather_icons)
+    draw.text((10, 10), icon_map[conditions['icon']], BLACK, weather_icons)
 
     if config['debug_show']:
         # Show image in a window for debugging
