@@ -11,7 +11,7 @@ class Weather:
         self.state = state
 
     def get_conditions(self):
-        url = self.API_URL.format(req='conditions', key=self.api_key, city=self.city, state=self.state)
+        url = self.API_URL.format(req='conditions_v11', key=self.api_key, city=self.city, state=self.state)
 
         with urllib.request.urlopen(url) as request:
             data = json.loads(request.read().decode())
