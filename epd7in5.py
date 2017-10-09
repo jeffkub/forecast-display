@@ -185,6 +185,38 @@ class EPD:
         self.delay_ms(100)
         self.wait_until_idle()
 
+    def display_qimage(self, image, black, red):
+        assert(image.size().width() == self.width)
+        assert(image.size().height() == self.height)
+
+        self.send_command(DATA_START_TRANSMISSION_1)
+
+        for y in range(0, self.height):
+            for x in range(0, self.width, 2):
+                data = 0
+
+                pixel = image.pixel(x, y)
+                if pixel == black:
+                    data |= 0x00
+                elif pixel == red:
+                    data |= 0x40
+                else:
+                    data |= 0x30
+
+                pixel = image.pixel(x + 1, y)
+                if pixel == black:
+                    data |= 0x00
+                elif pixel == red:
+                    data |= 0x04
+                else:
+                    data |= 0x03
+
+                self.send_data(data)
+
+        self.send_command(DISPLAY_REFRESH)
+        self.delay_ms(100)
+        self.wait_until_idle()
+
     def sleep(self):
         self.send_command(POWER_OFF)
         self.wait_until_idle()
