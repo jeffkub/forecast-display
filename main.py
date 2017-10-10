@@ -6,7 +6,7 @@ from datetime import datetime
 import json
 from PyQt5.QtGui import *
 from PyQt5.QtWidgets import *
-from PyQt5.QtCore import *
+from PyQt5 import uic
 import os
 import sys
 from weather import Weather
@@ -18,49 +18,6 @@ DISP_SIZE = (640, 384)
 WHITE = 0xffffffff
 BLACK = 0xff000000
 RED = 0xffff0000
-
-
-class ForecastDisplay(QWidget):
-    def __init__(self, icon_map, now, conditions):
-        super().__init__()
-        self.icon_map = icon_map
-        self.now = now
-        self.conditions = conditions
-        self.initUI()
-
-    def initUI(self):
-        font_small = QFont('FreeFont')
-        font_small.setWeight(QFont.Bold)
-        font_small.setPixelSize(110)
-
-        font_large = QFont('FreeFont')
-        font_large.setWeight(QFont.Bold)
-        font_large.setPixelSize(72)
-
-        icons = QFont('Weather Icons')
-        icons.setWeight(QFont.Normal)
-        icons.setPixelSize(48)
-
-        lbl1 = QLabel(self.now.strftime('%A'), self)
-        lbl1.setFont(font_small)
-        lbl1.move(0, 80)
-        lbl1.resize(640, 110)
-        lbl1.setAlignment(Qt.AlignCenter)
-
-        lbl2 = QLabel(self.now.strftime('%B %d'), self)
-        lbl2.setFont(font_large)
-        lbl2.move(0, 200)
-        lbl2.resize(640, 72)
-        lbl2.setAlignment(Qt.AlignCenter)
-        lbl2.setStyleSheet('QLabel { color : red; }')
-
-        lbl3 = QLabel(self.icon_map[self.conditions['icon']], self)
-        lbl3.setFont(icons)
-        lbl3.move(10, 10)
-
-        self.setGeometry(0, 0, DISP_SIZE[0], DISP_SIZE[1])
-        self.setWindowTitle('Forecast Display')
-        self.show()
 
 
 def get_config():
@@ -88,12 +45,6 @@ def main():
     QFontDatabase.addApplicationFont(BASE_PATH + '/fonts/freefont/FreeMonoBold.ttf')
     QFontDatabase.addApplicationFont(BASE_PATH + '/fonts/weather-icons/weathericons-regular-webfont.ttf')
 
-    # Set default font
-    font = QFont('FreeFont')
-    font.setPixelSize(12)
-    font.setStyleHint(QFont.AnyStyle, QFont.NoAntialias)
-    app.setFont(font)
-
     with open(BASE_PATH + '/icon-mapping.json') as file:
         icon_map = json.load(file)
 
@@ -103,7 +54,11 @@ def main():
 
     now = datetime.now()
 
-    display = ForecastDisplay(icon_map=icon_map, now=now, conditions=conditions)
+    display = uic.loadUi(BASE_PATH + '/layout.ui')
+    display.weekday.setText(now.strftime('%A'))
+    display.day.setText(now.strftime('%B %d'))
+    display.condition.setText(icon_map[conditions['icon']])
+    display.show()
 
     if config['debug_show']:
         # Show image in a window for debugging
