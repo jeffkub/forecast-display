@@ -20,26 +20,28 @@ BLACK = 0xff000000
 RED = 0xffff0000
 
 
-def get_config():
+def get_config(argv):
     # Parse command line arguments
     parser = argparse.ArgumentParser()
     parser.add_argument('--config_file', '-c', default=BASE_PATH + '/config.json')
-    parser.add_argument('--debug_show', action='store_true')
-    args, remaining = parser.parse_known_args()
-    args = vars(args)
+    parser.add_argument('--outfile', '-o', default=None)
+    parser.add_argument('--skip_weather', action='store_true')
+    args = vars(parser.parse_args(argv))
 
     # Parse from config file
     with open(args['config_file']) as file:
         json_data = json.load(file)
         args.update(json_data)
 
-    return args, remaining
+    return args
 
 
 def main():
-    config, argv = get_config()
+    # Initialize QT in offscreen mode (no window needed)
+    app = QApplication(sys.argv + '-platform offscreen'.split())
 
-    app = QApplication(sys.argv)
+    # Get configuration from command line and config file
+    config = get_config(app.arguments()[1:])
 
     # Load fonts
     QFontDatabase.addApplicationFont(BASE_PATH + '/fonts/freefont/FreeMonoBold.ttf')
@@ -48,6 +50,7 @@ def main():
     with open(BASE_PATH + '/icon-mapping.json') as file:
         icon_map = json.load(file)
 
+    # Get weather forecast and conditions
     weather = Weather(api_key=config['api_key'], city=config['city'], state=config['state'])
     conditions = weather.get_conditions()
     forecast = weather.get_forecast()
@@ -55,25 +58,28 @@ def main():
     now = datetime.now()
 
     display = uic.loadUi(BASE_PATH + '/layout.ui')
-    display.high.setText('{}\N{DEGREE SIGN}'.format(forecast[0]['high']['fahrenheit']))
-    display.low.setText('{}\N{DEGREE SIGN}'.format(forecast[0]['low']['fahrenheit']))
-    display.temp.setText('{:.0f}\N{DEGREE SIGN}'.format(conditions['temp_f']))
-    display.feels_like.setText('Feels like {:.0f}\N{DEGREE SIGN}'.format(float(conditions['feelslike_f'])))
-    display.cond.setText(icon_map[conditions['icon']])
-    display.percip.setText('{}%'.format(forecast[0]['pop']))
-    display.weekday.setText(now.strftime('%A'))
-    display.date.setText(now.strftime('%B %d'))
-    display.show()
 
-    if config['debug_show']:
-        # Show image in a window for debugging
-        app.exec_()
+    if not config['skip_weather']:
+        # Update the display with weather data
+        display.high.setText('{}\N{DEGREE SIGN}'.format(forecast[0]['high']['fahrenheit']))
+        display.low.setText('{}\N{DEGREE SIGN}'.format(forecast[0]['low']['fahrenheit']))
+        display.temp.setText('{:.0f}\N{DEGREE SIGN}'.format(conditions['temp_f']))
+        display.feels_like.setText('Feels like {:.0f}\N{DEGREE SIGN}'.format(float(conditions['feelslike_f'])))
+        display.cond.setText(icon_map[conditions['icon']])
+        display.percip.setText('{}%'.format(forecast[0]['pop']))
+        display.weekday.setText(now.strftime('%A'))
+        display.date.setText(now.strftime('%B %d'))
+        display.show()
+
+    # Render to image
+    img = QImage(display.size(), QImage.Format_RGB888)
+    img.fill(WHITE)
+    display.render(QPainter(img))
+
+    if config['outfile']:
+        # Save image to file
+        img.save(config['outfile'])
     else:
-        # Render to image
-        img = QImage(display.size(), QImage.Format_RGB888)
-        img.fill(WHITE)
-        display.render(QPainter(img))
-
         # Send to e-paper display
         from epd7in5 import EPD
         epd = EPD()
