@@ -47,6 +47,7 @@ def main():
     QFontDatabase.addApplicationFont(BASE_PATH + '/fonts/freefont/FreeMonoBold.ttf')
     QFontDatabase.addApplicationFont(BASE_PATH + '/fonts/weather-icons/weathericons-regular-webfont.ttf')
 
+    # Load weather icon map file
     with open(BASE_PATH + '/icon-mapping.json') as file:
         icon_map = json.load(file)
 
@@ -55,12 +56,14 @@ def main():
     conditions = weather.get_conditions()
     forecast = weather.get_forecast()
 
+    # Get current time
     now = datetime.now()
 
+    # Load display layout
     display = uic.loadUi(BASE_PATH + '/layout.ui')
 
+    # Update the display with weather data
     if not config['skip_weather']:
-        # Update the display with weather data
         display.high.setText('{}\N{DEGREE SIGN}'.format(forecast[0]['high']['fahrenheit']))
         display.low.setText('{}\N{DEGREE SIGN}'.format(forecast[0]['low']['fahrenheit']))
         display.temp.setText('{:.0f}\N{DEGREE SIGN}'.format(conditions['temp_f']))
@@ -69,11 +72,9 @@ def main():
         display.percip.setText('{}%'.format(forecast[0]['pop']))
         display.weekday.setText(now.strftime('%A'))
         display.date.setText(now.strftime('%B %d'))
-        display.show()
 
     # Render to image
     img = QImage(display.size(), QImage.Format_RGB888)
-    img.fill(WHITE)
     display.render(QPainter(img))
 
     if config['outfile']:
