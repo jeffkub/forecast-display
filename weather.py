@@ -24,4 +24,4 @@ class Weather:
         with urllib.request.urlopen(url) as request:
             data = json.loads(request.read().decode())
 
-        return data['forecast']
+        return data['forecast']['simpleforecast']['forecastday']

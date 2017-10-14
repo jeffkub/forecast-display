@@ -55,9 +55,14 @@ def main():
     now = datetime.now()
 
     display = uic.loadUi(BASE_PATH + '/layout.ui')
+    display.high.setText('{}\N{DEGREE SIGN}'.format(forecast[0]['high']['fahrenheit']))
+    display.low.setText('{}\N{DEGREE SIGN}'.format(forecast[0]['low']['fahrenheit']))
+    display.temp.setText('{:.0f}\N{DEGREE SIGN}'.format(conditions['temp_f']))
+    display.feels_like.setText('Feels like {:.0f}\N{DEGREE SIGN}'.format(float(conditions['feelslike_f'])))
+    display.cond.setText(icon_map[conditions['icon']])
+    display.percip.setText('{}%'.format(forecast[0]['pop']))
     display.weekday.setText(now.strftime('%A'))
-    display.day.setText(now.strftime('%B %d'))
-    display.condition.setText(icon_map[conditions['icon']])
+    display.date.setText(now.strftime('%B %d'))
     display.show()
 
     if config['debug_show']:

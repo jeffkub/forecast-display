@@ -22,14 +22,14 @@
   <widget class="QLabel" name="weekday">
    <property name="geometry">
     <rect>
-     <x>0</x>
-     <y>70</y>
-     <width>640</width>
-     <height>140</height>
+     <x>320</x>
+     <y>20</y>
+     <width>321</width>
+     <height>61</height>
     </rect>
    </property>
    <property name="styleSheet">
-    <string notr="true">QLabel { font: bold; font-size: 110px }</string>
+    <string notr="true">QLabel { font: bold; font-size: 40px }</string>
    </property>
    <property name="text">
     <string>Wednesday</string>
@@ -38,17 +38,17 @@
     <set>Qt::AlignCenter</set>
    </property>
   </widget>
-  <widget class="QLabel" name="day">
+  <widget class="QLabel" name="date">
    <property name="geometry">
     <rect>
-     <x>0</x>
-     <y>200</y>
-     <width>640</width>
-     <height>92</height>
+     <x>320</x>
+     <y>80</y>
+     <width>321</width>
+     <height>61</height>
     </rect>
    </property>
    <property name="styleSheet">
-    <string notr="true">QLabel { font: bold; font-size: 72px; color: red; }</string>
+    <string notr="true">QLabel { font: bold; font-size: 40px; }</string>
    </property>
    <property name="text">
     <string>September 30</string>
@@ -57,23 +57,156 @@
     <set>Qt::AlignCenter</set>
    </property>
   </widget>
-  <widget class="QLabel" name="condition">
+  <widget class="QLabel" name="cond">
    <property name="geometry">
     <rect>
-     <x>10</x>
+     <x>210</x>
      <y>10</y>
-     <width>58</width>
-     <height>58</height>
+     <width>101</width>
+     <height>91</height>
     </rect>
    </property>
    <property name="styleSheet">
-    <string notr="true">QLabel { font-size: 48px; }</string>
+    <string notr="true">QLabel { font-size: 60px; }</string>
    </property>
    <property name="text">
-    <string></string>
+    <string></string>
    </property>
    <property name="alignment">
     <set>Qt::AlignCenter</set>
+   </property>
+  </widget>
+  <widget class="QLabel" name="temp">
+   <property name="geometry">
+    <rect>
+     <x>10</x>
+     <y>40</y>
+     <width>181</width>
+     <height>81</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">QLabel { font: bold; font-size: 80px; }</string>
+   </property>
+   <property name="text">
+    <string>100°</string>
+   </property>
+   <property name="alignment">
+    <set>Qt::AlignCenter</set>
+   </property>
+  </widget>
+  <widget class="QLabel" name="high">
+   <property name="geometry">
+    <rect>
+     <x>10</x>
+     <y>0</y>
+     <width>81</width>
+     <height>41</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">QLabel { font: bold; font-size: 30px }</string>
+   </property>
+   <property name="text">
+    <string>100°</string>
+   </property>
+   <property name="alignment">
+    <set>Qt::AlignCenter</set>
+   </property>
+  </widget>
+  <widget class="QLabel" name="low">
+   <property name="geometry">
+    <rect>
+     <x>110</x>
+     <y>0</y>
+     <width>81</width>
+     <height>41</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">QLabel { font: bold; font-size: 30px }</string>
+   </property>
+   <property name="text">
+    <string>100°</string>
+   </property>
+   <property name="alignment">
+    <set>Qt::AlignCenter</set>
+   </property>
+  </widget>
+  <widget class="QLabel" name="feels_like">
+   <property name="geometry">
+    <rect>
+     <x>10</x>
+     <y>120</y>
+     <width>171</width>
+     <height>41</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">QLabel { font: bold; font-size: 22px }</string>
+   </property>
+   <property name="text">
+    <string>Feels like 100°</string>
+   </property>
+   <property name="alignment">
+    <set>Qt::AlignCenter</set>
+   </property>
+  </widget>
+  <widget class="Line" name="line">
+   <property name="geometry">
+    <rect>
+     <x>10</x>
+     <y>170</y>
+     <width>620</width>
+     <height>3</height>
+    </rect>
+   </property>
+   <property name="frameShadow">
+    <enum>QFrame::Plain</enum>
+   </property>
+   <property name="lineWidth">
+    <number>3</number>
+   </property>
+   <property name="orientation">
+    <enum>Qt::Horizontal</enum>
+   </property>
+  </widget>
+  <widget class="QLabel" name="percip">
+   <property name="geometry">
+    <rect>
+     <x>220</x>
+     <y>110</y>
+     <width>81</width>
+     <height>41</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">QLabel { font: bold; font-size: 30px }</string>
+   </property>
+   <property name="text">
+    <string>100%</string>
+   </property>
+   <property name="alignment">
+    <set>Qt::AlignCenter</set>
+   </property>
+  </widget>
+  <widget class="Line" name="line_2">
+   <property name="geometry">
+    <rect>
+     <x>100</x>
+     <y>10</y>
+     <width>3</width>
+     <height>21</height>
+    </rect>
+   </property>
+   <property name="frameShadow">
+    <enum>QFrame::Plain</enum>
+   </property>
+   <property name="lineWidth">
+    <number>3</number>
+   </property>
+   <property name="orientation">
+    <enum>Qt::Vertical</enum>
    </property>
   </widget>
  </widget>
