@@ -40,11 +40,17 @@ def main():
     # Initialize QT in offscreen mode (no window needed)
     app = QApplication(sys.argv + '-platform offscreen'.split())
 
+    # Disable font anti-aliasing
+    font = app.font()
+    font.setStyleStrategy(QFont.NoAntialias)
+    app.setFont(font)
+
     # Get configuration from command line and config file
     config = get_config(app.arguments()[1:])
 
     # Load fonts
-    QFontDatabase.addApplicationFont(BASE_PATH + '/fonts/freefont/FreeMonoBold.ttf')
+    QFontDatabase.addApplicationFont(BASE_PATH + '/fonts/freefont/FreeSans.ttf')
+    QFontDatabase.addApplicationFont(BASE_PATH + '/fonts/freefont/FreeSansBold.ttf')
     QFontDatabase.addApplicationFont(BASE_PATH + '/fonts/weather-icons/weathericons-regular-webfont.ttf')
 
     # Load weather icon map file
@@ -72,6 +78,15 @@ def main():
         display.percip.setText('{}%'.format(forecast[0]['pop']))
         display.weekday.setText(now.strftime('%A'))
         display.date.setText(now.strftime('%B %d'))
+
+        for i in range(1, 5):
+            day = uic.loadUi(BASE_PATH + '/day.ui')
+            day.date.setText('{} {}'.format(forecast[i]['date']['weekday_short'].upper(), forecast[i]['date']['day']))
+            day.cond.setText(icon_map[forecast[i]['icon']])
+            day.high.setText('{}\N{DEGREE SIGN}'.format(forecast[i]['high']['fahrenheit']))
+            day.low.setText('{}\N{DEGREE SIGN}'.format(forecast[i]['low']['fahrenheit']))
+            day.percip.setText('{}%'.format(forecast[i]['pop']))
+            display.forecast.addWidget(day)
 
     # Render to image
     img = QImage(display.size(), QImage.Format_RGB888)

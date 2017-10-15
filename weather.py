@@ -19,7 +19,7 @@ class Weather:
         return data['current_observation']
 
     def get_forecast(self):
-        url = self.API_URL.format(req='forecast_v11', key=self.api_key, city=self.city, state=self.state)
+        url = self.API_URL.format(req='forecast7day_v11', key=self.api_key, city=self.city, state=self.state)
 
         with urllib.request.urlopen(url) as request:
             data = json.loads(request.read().decode())

@@ -13,11 +13,22 @@
   <property name="font">
    <font>
     <family>FreeSans</family>
-    <stylestrategy>NoAntialias</stylestrategy>
+    <pointsize>-1</pointsize>
+    <weight>50</weight>
+    <italic>false</italic>
+    <bold>false</bold>
    </font>
   </property>
   <property name="windowTitle">
-   <string>Form</string>
+   <string>Forecast</string>
+  </property>
+  <property name="styleSheet">
+   <string notr="true">QFrame, QWidget {
+	color: black;
+	background-color: white;
+	font: 10px &quot;FreeSans&quot;;
+}
+</string>
   </property>
   <widget class="QLabel" name="weekday">
    <property name="geometry">
@@ -29,7 +40,7 @@
     </rect>
    </property>
    <property name="styleSheet">
-    <string notr="true">QLabel { font: bold; font-size: 40px }</string>
+    <string notr="true">QLabel { font: bold 40px; }</string>
    </property>
    <property name="text">
     <string>Wednesday</string>
@@ -48,7 +59,7 @@
     </rect>
    </property>
    <property name="styleSheet">
-    <string notr="true">QLabel { font: bold; font-size: 40px; }</string>
+    <string notr="true">QLabel { font: bold 40px; }</string>
    </property>
    <property name="text">
     <string>September 30</string>
@@ -67,7 +78,7 @@
     </rect>
    </property>
    <property name="styleSheet">
-    <string notr="true">QLabel { font-size: 60px; }</string>
+    <string notr="true">QLabel { font: 60px &quot;Weather Icons&quot;; }</string>
    </property>
    <property name="text">
     <string></string>
@@ -85,8 +96,17 @@
      <height>81</height>
     </rect>
    </property>
+   <property name="font">
+    <font>
+     <family>FreeSans</family>
+     <pointsize>-1</pointsize>
+     <weight>75</weight>
+     <italic>false</italic>
+     <bold>true</bold>
+    </font>
+   </property>
    <property name="styleSheet">
-    <string notr="true">QLabel { font: bold; font-size: 80px; }</string>
+    <string notr="true">QLabel { font: bold 80px; }</string>
    </property>
    <property name="text">
     <string>100°</string>
@@ -104,8 +124,17 @@
      <height>41</height>
     </rect>
    </property>
+   <property name="font">
+    <font>
+     <family>FreeSans</family>
+     <pointsize>-1</pointsize>
+     <weight>75</weight>
+     <italic>false</italic>
+     <bold>true</bold>
+    </font>
+   </property>
    <property name="styleSheet">
-    <string notr="true">QLabel { font: bold; font-size: 30px }</string>
+    <string notr="true">QLabel { font: bold 30px; }</string>
    </property>
    <property name="text">
     <string>100°</string>
@@ -123,8 +152,17 @@
      <height>41</height>
     </rect>
    </property>
+   <property name="font">
+    <font>
+     <family>FreeSans</family>
+     <pointsize>-1</pointsize>
+     <weight>75</weight>
+     <italic>false</italic>
+     <bold>true</bold>
+    </font>
+   </property>
    <property name="styleSheet">
-    <string notr="true">QLabel { font: bold; font-size: 30px }</string>
+    <string notr="true">QLabel { font: bold 30px; }</string>
    </property>
    <property name="text">
     <string>100°</string>
@@ -142,8 +180,17 @@
      <height>41</height>
     </rect>
    </property>
+   <property name="font">
+    <font>
+     <family>FreeSans</family>
+     <pointsize>-1</pointsize>
+     <weight>75</weight>
+     <italic>false</italic>
+     <bold>true</bold>
+    </font>
+   </property>
    <property name="styleSheet">
-    <string notr="true">QLabel { font: bold; font-size: 22px }</string>
+    <string notr="true">QLabel { font: bold 22px; }</string>
    </property>
    <property name="text">
     <string>Feels like 100°</string>
@@ -181,7 +228,7 @@
     </rect>
    </property>
    <property name="styleSheet">
-    <string notr="true">QLabel { font: bold; font-size: 30px }</string>
+    <string notr="true">QLabel { font: bold 30px; }</string>
    </property>
    <property name="text">
     <string>100%</string>
@@ -208,6 +255,21 @@
    <property name="orientation">
     <enum>Qt::Vertical</enum>
    </property>
+  </widget>
+  <widget class="QWidget" name="horizontalLayoutWidget">
+   <property name="geometry">
+    <rect>
+     <x>-1</x>
+     <y>179</y>
+     <width>641</width>
+     <height>201</height>
+    </rect>
+   </property>
+   <layout class="QHBoxLayout" name="forecast">
+    <property name="spacing">
+     <number>0</number>
+    </property>
+   </layout>
   </widget>
  </widget>
  <resources/>
