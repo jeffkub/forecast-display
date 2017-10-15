@@ -39,15 +39,6 @@
    </property>
    <item>
     <widget class="QLabel" name="date">
-     <property name="font">
-      <font>
-       <family>FreeSans</family>
-       <pointsize>-1</pointsize>
-       <weight>75</weight>
-       <italic>false</italic>
-       <bold>true</bold>
-      </font>
-     </property>
      <property name="styleSheet">
       <string notr="true"/>
      </property>
@@ -61,15 +52,6 @@
    </item>
    <item>
     <widget class="QLabel" name="cond">
-     <property name="font">
-      <font>
-       <family>Weather Icons</family>
-       <pointsize>-1</pointsize>
-       <weight>50</weight>
-       <italic>false</italic>
-       <bold>false</bold>
-      </font>
-     </property>
      <property name="styleSheet">
       <string notr="true">QLabel { font: 60px &quot;Weather Icons&quot;; }</string>
      </property>
@@ -88,15 +70,6 @@
      </property>
      <item>
       <widget class="QLabel" name="high">
-       <property name="font">
-        <font>
-         <family>FreeSans</family>
-         <pointsize>-1</pointsize>
-         <weight>75</weight>
-         <italic>false</italic>
-         <bold>true</bold>
-        </font>
-       </property>
        <property name="styleSheet">
         <string notr="true"/>
        </property>
@@ -123,15 +96,6 @@
      </item>
      <item>
       <widget class="QLabel" name="low">
-       <property name="font">
-        <font>
-         <family>FreeSans</family>
-         <pointsize>-1</pointsize>
-         <weight>75</weight>
-         <italic>false</italic>
-         <bold>true</bold>
-        </font>
-       </property>
        <property name="text">
         <string>100°</string>
        </property>
@@ -144,15 +108,6 @@
    </item>
    <item>
     <widget class="QLabel" name="percip">
-     <property name="font">
-      <font>
-       <family>FreeSans</family>
-       <pointsize>-1</pointsize>
-       <weight>75</weight>
-       <italic>false</italic>
-       <bold>true</bold>
-      </font>
-     </property>
      <property name="text">
       <string>100%</string>
      </property>
