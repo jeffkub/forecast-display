@@ -1,5 +1,4 @@
 #!/usr/bin/python3
-# ./main.py -platform offscreen
 
 import argparse
 from datetime import datetime
